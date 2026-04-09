@@ -1,19 +1,13 @@
+from supabase import create_client, Client
 import os
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
-# Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
 
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("¡Faltan credenciales de Supabase en el archivo .env!")
+if not url or not key:
+    print("Warning: Supabase credentials not found in environment variables.")
 
-# Instanciar el cliente oficial que conectará directamente con tu base de datos
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-# Dependencia para inyectar este cliente en nuestras rutas de FastAPI
-def get_db():
-    return supabase
+supabase: Client = create_client(url, key) if url and key else None
