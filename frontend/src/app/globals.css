@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-500: #00C2FF;
+  --color-brand-600: #00A3D9;
+  --color-primary: #111827;
+  --color-surface: #ffffff;
+  --color-background: #f8f9fa;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+
+/* Typography styles for Markdown */
+@layer base {
+  h1 {
+    @apply text-2xl font-bold text-slate-800 mt-6 mb-4;
+  }
+  h2 {
+    @apply text-xl font-bold text-slate-800 mt-5 mb-3;
+  }
+  h3 {
+    @apply text-lg font-semibold text-slate-800 mt-4 mb-2;
+  }
+  p {
+    @apply text-slate-600 leading-relaxed mb-3;
+  }
+  a {
+    @apply text-cyan-600 hover:text-cyan-700 underline font-medium transition-colors;
+  }
+  ul {
+    @apply list-disc list-inside space-y-2 ml-4;
+  }
+  ol {
+    @apply list-decimal list-inside space-y-2 ml-4;
+  }
+  li {
+    @apply text-slate-600 leading-relaxed;
+  }
+  strong {
+    @apply font-semibold text-slate-800;
+  }
+  code {
+    @apply bg-slate-100 text-slate-800 px-2 py-1 rounded-lg text-sm font-mono;
+  }
+  blockquote {
+    @apply border-l-4 border-slate-200 pl-4 italic text-slate-600 my-4;
+  }
+}
