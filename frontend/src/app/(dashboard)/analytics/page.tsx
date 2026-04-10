@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
     const fetchAnalytics = async () => {
       try {
         const token = localStorage.getItem("token");
-        const resp = await fetch(`http://127.0.0.1:8000/api/analytics/summary?t=${Date.now()}`, {
+        const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/analytics/summary?t=${Date.now()}`, {
            headers: { "Authorization": `Bearer ${token}` }
         });
         
