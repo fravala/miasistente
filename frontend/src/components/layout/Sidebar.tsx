@@ -1,99 +1,89 @@
-"use client"
-import { Calendar, LayoutDashboard, Settings, UserCircle, Briefcase, Activity, CheckCircle, PieChart, LogOut } from "lucide-react";
+"use client";
+
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { 
+  BarChart3, 
+  Users, 
+  CheckCircle2, 
+  Settings, 
+  LogOut, 
+  Rocket,
+  Zap,
+  Globe,
+  Plus
+} from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
 
   const navItems = [
-    { name: "Tablero", href: "/", icon: LayoutDashboard },
-    { name: "Tareas", href: "/tasks", icon: CheckCircle },
-    { name: "Contactos", href: "/crm", icon: Briefcase },
-    { name: "Analíticas", href: "/analytics", icon: Activity },
-    { name: "Ajustes", href: "/settings", icon: Settings },
+    { label: "Dashboard", icon: BarChart3, href: "/dashboard" },
+    { label: "CRM", icon: Users, href: "/crm" },
+    { label: "Tareas", icon: CheckCircle2, href: "/tasks" },
+    { label: "Configuración", icon: Settings, href: "/settings" },
   ];
 
   return (
-    <>
-      {/* === DESKTOP SIDEBAR (oculto en móvil) === */}
-      <aside className="hidden md:flex w-24 h-screen bg-white border-r border-slate-100 flex-col items-center py-8 justify-between shadow-sm z-10 shrink-0">
-        <div className="flex flex-col items-center gap-10">
-          {/* Logo */}
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-400 to-cyan-300 flex items-center justify-center text-white shadow-cyan-200 shadow-lg cursor-pointer hover:scale-105 transition-transform">
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+    <aside className="hidden md:flex flex-col w-72 h-screen bg-white border-r border-slate-100/80 shadow-[1px_0_10px_rgba(0,0,0,0.01)] transition-all duration-500 relative z-30">
+      <div className="p-8 pb-4">
+        <Link href="/" className="flex items-center gap-3.5 group">
+          <div className="w-11 h-11 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-100 group-hover:rotate-6 transition-transform duration-500">
+            <Rocket size={20} strokeWidth={2.5} />
           </div>
+          <div>
+            <span className="text-xl font-black text-slate-800 tracking-tighter block leading-none">MiAsistente</span>
+            <span className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.3em] mt-1 block opacity-70">ERP Enterprise</span>
+          </div>
+        </Link>
+      </div>
 
-          <nav className="flex flex-col gap-6 items-center">
-            {navItems.filter(i => i.href !== '/settings').map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
-              return (
-                <Link href={item.href} key={item.name} title={item.name}
-                   className={`p-3 rounded-2xl transition-all duration-300 relative group
-                   ${isActive ? 'bg-cyan-50 text-cyan-500 shadow-sm' : 'text-slate-400 hover:text-cyan-500 hover:bg-slate-50'}`}>
-                  {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-cyan-400 rounded-r-full" />
-                  )}
-                  <Icon size={22} className={isActive ? "stroke-[2.5px]" : "stroke-2"} />
-                </Link>
-              )
-            })}
-          </nav>
-        </div>
+      <div className="p-6">
+        <button className="w-full h-14 bg-slate-50 border border-slate-100 hover:border-indigo-200 hover:bg-white rounded-2xl flex items-center gap-4 px-5 transition-all group overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/50 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
+          <div className="w-8 h-8 bg-indigo-100/50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 relative z-10">
+            <Plus size={16} strokeWidth={3} />
+          </div>
+          <span className="text-xs font-black text-slate-600 group-hover:text-indigo-600 transition-colors uppercase tracking-widest relative z-10">Nuevo Registro</span>
+        </button>
+      </div>
 
-        <div className="flex flex-col items-center gap-6">
-          <Link href="/settings" className={`p-2 rounded-xl transition-all duration-300 ${pathname === '/settings' ? 'bg-cyan-50 text-cyan-500 shadow-sm' : 'text-slate-400 hover:text-cyan-500 hover:bg-slate-50'}`} title="Configuración">
-            <Settings size={22} className={pathname === '/settings' ? "stroke-[2.5px]" : "stroke-2"} />
-          </Link>
-          <button
-             onClick={handleLogout}
-             className="p-2 rounded-xl transition-all duration-300 text-slate-400 hover:text-red-500 hover:bg-red-50"
-             title="Cerrar Sesión">
-            <LogOut size={22} className="stroke-2" />
-          </button>
-          <button className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 hover:border-cyan-400 transition cursor-pointer flex items-center justify-center bg-slate-100 mt-2" title="Perfil de Usuario">
-            <UserCircle size={32} className="text-slate-400" />
-          </button>
-        </div>
-      </aside>
-
-      {/* === MOBILE BOTTOM NAV (solo en móvil) === */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.08)] flex items-center justify-around px-2 py-2 safe-area-inset-bottom">
+      <nav className="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto no-scrollbar">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-          const Icon = item.icon;
           return (
             <Link
+              key={item.href}
               href={item.href}
-              key={item.name}
-              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-all duration-200 ${
+              className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300 group ${
                 isActive
-                  ? 'text-cyan-500 bg-cyan-50'
-                  : 'text-slate-400 hover:text-slate-600'
+                  ? "bg-indigo-50 text-indigo-600 shadow-sm shadow-indigo-50"
+                  : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
-              <Icon size={20} className={isActive ? "stroke-[2.5px]" : "stroke-2"} />
-              <span className={`text-[9px] font-bold uppercase tracking-wider ${isActive ? 'text-cyan-500' : 'text-slate-400'}`}>
-                {item.name}
-              </span>
+              <item.icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-indigo-600" : "text-slate-300 group-hover:text-slate-400"} />
+              {item.label}
+              {isActive && (
+                <div className="ml-auto w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+              )}
             </Link>
           );
         })}
-        <button
-          onClick={handleLogout}
-          className="flex flex-col items-center gap-1 px-3 py-2 rounded-2xl text-slate-400 hover:text-red-500 transition-all"
-        >
-          <LogOut size={20} className="stroke-2" />
-          <span className="text-[9px] font-bold uppercase tracking-wider">Salir</span>
-        </button>
       </nav>
-    </>
+
+      <div className="px-6 py-8 border-t border-slate-50 space-y-6">
+        <div className="p-5 rounded-[2rem] bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden group">
+          <Zap className="absolute -right-2 -top-2 text-white/10 w-24 h-24 rotate-12 group-hover:scale-125 transition-transform duration-700" />
+          <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-1">Plan Pro</p>
+          <p className="text-xs font-bold leading-tight relative z-10">Uso de IA Ilimitado y Backup Diario</p>
+          <button className="mt-4 w-full py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Ver Upgrade</button>
+        </div>
+
+        <button className="flex items-center gap-4 px-5 w-full text-slate-400 hover:text-rose-500 transition-colors group">
+          <LogOut size={18} />
+          <span className="text-[10px] font-black uppercase tracking-widest">Cerrar Sesión</span>
+        </button>
+      </div>
+    </aside>
   );
 }
