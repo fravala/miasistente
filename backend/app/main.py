@@ -17,24 +17,27 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configurar CORS para permitir peticiones desde el frontend (especialmente Next.js en puerto 3000)
-# Configurar CORS con orígenes específicos para permitir envío de tokens Bearer/Cookies
-ALLOWED_ORIGINS = [
+# Configurar CORS con orígenes específicos o permitir todos para facilitar despliegue
+origins_env = os.getenv("ALLOWED_ORIGINS", "").split(",")
+ALLOWED_ORIGINS = [o.strip() for o in origins_env if o.strip()] + [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "http://localhost:3005",
+    "http://127.0.0.1:3005",
 ]
 
+# Si estamos en producción o despliegue, podemos permitir todos temporalmente para asegurar conexión
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
+    allow_origins=["*"], # Abrimos a todos para despliegue
+    allow_credentials=False, # Si usamos "*", credentials debe ser False
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Registrando los routers de Dominio - Order matters for path resolution
+# Registrando los routers de Dominio
 app.include_router(auth_router)
 app.include_router(crm_router)
 app.include_router(tasks_router)
