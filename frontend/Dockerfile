@@ -11,18 +11,13 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Stage 2: Production
-FROM node:20-alpine AS runner
+# Stage 2: Runtime
+FROM node:20-slim
 WORKDIR /app
-
-ENV NODE_ENV=production
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3005
-ENV PORT=3005
-
-CMD ["node", "server.js"]
+CMD ["npm", "start", "--", "-p", "3005"]
