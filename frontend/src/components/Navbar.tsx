@@ -3,8 +3,7 @@
 import { 
   Bell, Search, Menu, 
   ChevronDown, Crown, 
-  SearchIcon, Zap,
-  Sparkles
+  Zap, Sparkles
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -26,7 +25,6 @@ export default function Navbar({ toggleSidebar }: { toggleSidebar: () => void })
   return (
     <nav className={`h-20 flex items-center justify-between px-6 md:px-10 border-b transition-all duration-300 z-30 sticky top-0 ${scrolled ? 'bg-white/70 backdrop-blur-xl border-slate-200/50 shadow-lg shadow-indigo-500/5' : 'bg-transparent border-transparent'}`}>
       
-      {/* Left side: Mobile Toggle & Search */}
       <div className="flex items-center gap-6">
         <button 
           onClick={toggleSidebar}
@@ -45,7 +43,6 @@ export default function Navbar({ toggleSidebar }: { toggleSidebar: () => void })
         </div>
       </div>
 
-      {/* Right side: Actions & User */}
       <div className="flex items-center gap-4 md:gap-7">
         <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-indigo-600/5 border border-indigo-100 rounded-2xl">
            <Crown size={14} className="text-indigo-600" />

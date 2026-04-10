@@ -1,7 +1,7 @@
 "use client";
 
 import { 
-  Users, CheckCircle, Clock, Setting, 
+  Users, CheckCircle, Clock, Settings, 
   Menu, X, Home, LogOut, Sparkles,
   Zap, Database, LifeBuoy, Bell
 } from "lucide-react";
